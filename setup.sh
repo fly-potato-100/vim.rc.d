@@ -115,11 +115,14 @@ cp templ/vimrc.tpl vimrc
 render_template vimrc %GTAGSCONF_PATH% $VAR_GTAGSCONF_PATH
 render_template vimrc %GTAGSLABEL_STR% $VAR_GTAGSLABEL_STR
 render_template vimrc %VISTA_EXE% $VAR_VISTA_EXE
+echo "==> 生成vimrc。"
 
+### 设置coc.nvim
+mkdir -p plug_home/coc.nvim/config
 cp templ/coc-settings.json.tpl plug_home/coc.nvim/config/coc-settings.json
 render_template plug_home/coc.nvim/config/coc-settings.json %COC_CLANGD_ENABLED% $VAR_CLANGD_ENABLED
 render_template plug_home/coc.nvim/config/coc-settings.json %COC_CLANGD_PATH% $VAR_CLANGD_PATH
-echo "==> 生成vimrc。"
+echo "==> 生成coc-settings.json。"
 
 ### 执行部分插件的额外安装
 echo "==> 安装LeaderF ..."
