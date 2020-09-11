@@ -20,6 +20,8 @@ syntax on				" 语法高亮
 "set cursorline			" 高亮当前行
 set showmatch			" 高亮匹配括号
 "color ron				" 颜色主题
+set cmdheight=2			" 命令行高度
+set signcolumn=yes	" 总是显示标记列，否则语义检测符号会左右移动整个UI
 
 
 """-----------------------------
@@ -48,6 +50,7 @@ set ambiwidth=double	" 防止Unicode特殊符号无法显示
 """ 功能
 """-----------------------------
 set history=50			" 命令历史数
+set updatetime=300 		" 刷新时间300ms
 set incsearch			" 启用增量查找
 set tags=./tags;,tags	" tags文件位置
 set backspace=indent,eol,start		" 智能回退
@@ -78,6 +81,10 @@ augroup END
 """-----------------------------
 """ 自定义映射
 """-----------------------------
+" 转义tab以允许自定义tab相关的映射
+exe 'set t_kB=' . nr2char(27) . '[Z'
+
+" 自定义mapleader
 let mapleader = "\<Space>"
 
 function! SwitchBuffer(i)
@@ -129,21 +136,11 @@ nnoremap <F3> :NERDTreeToggle<CR>
 
 
 """-----------------------------
-""" Tagbar
-"""-----------------------------
-augroup tagbar_enable
-	au!
-	" 忽略pb生成的文件，因为它们太大了，很耗时。
-	autocmd BufNewFile,BufReadPost *.pb.{cc,h} let b:tagbar_ignore = 1
-augroup END
-nnoremap <F4> :TagbarToggle<CR>
-
-
-"""-----------------------------
 """ airline
 """-----------------------------
-let g:airline#extensions#tabline#enabled = 1	" 启用tabline
+let g:airline#extensions#tabline#enabled = 1			" 启用tabline
 "let g:airline#extensions#tabline#buffer_nr_show = 1	" tabline显示编号
+let g:airline#extensions#whitespace#enabled = 0 		" 禁用空格检查
 
 
 """-----------------------------
@@ -166,15 +163,18 @@ let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
 let g:Lf_ShortcutF = '<leader>ff'
 let g:Lf_ShortcutB = '<leader>fb'
-nnoremap <leader>fc :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
-nnoremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
-nnoremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 
-nnoremap <leader>se :<C-U><C-R>=printf("Leaderf rg -s -w -e %s ", expand("<cword>"))<CR><CR>
-xnoremap <leader>ss :<C-U><C-R>=printf("Leaderf rg -s -F -e %s ", leaderf#Rg#visual())<CR><CR>
-nnoremap <leader>so :<C-U>Leaderf rg --recall<CR>
-nnoremap <leader>sa :<C-U>Leaderf rg -s<Space>
-nnoremap <leader>sA :<C-U>Leaderf rg<CR>
+function! InitLeaderFMap()
+	nnoremap <leader>fc :<C-U><C-R>=printf("Leaderf function %s", "")<CR><CR>
+	nnoremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+	nnoremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+
+	nnoremap <leader>se :<C-U><C-R>=printf("Leaderf rg -s -w -e %s ", expand("<cword>"))<CR><CR>
+	xnoremap <leader>ss :<C-U><C-R>=printf("Leaderf rg -s -F -e %s ", leaderf#Rg#visual())<CR><CR>
+	nnoremap <leader>so :<C-U>Leaderf rg --recall<CR>
+	nnoremap <leader>sa :<C-U>Leaderf rg -s<Space>
+	nnoremap <leader>sA :<C-U>Leaderf rg<CR>
+endfunction
 
 let g:Lf_GtagsAutoGenerate = 0
 "let $GTAGSFORCECPP = 1
@@ -192,52 +192,61 @@ function! InitLeaderFGtagsMap()
 	nnoremap <buffer> <leader>gn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 	nnoremap <buffer> <leader>gp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 endfunction
-augroup leaderf_gtags_auto_cmd
+augroup leaderf_auto_cmd
 	au!
+	autocmd FileType * call InitLeaderFMap()
 	autocmd FileType * call InitLeaderFGtagsMap()
 augroup END
 
 
 """-----------------------------
-""" YouCompleteMe
+""" Vista
 """-----------------------------
-packadd YouCompleteMe
-let g:ycm_disable_for_files_larger_than_kb = 0
-" 是否使用clangd作为补全引擎
-let g:ycm_use_clangd = %CLANGD_ENABLED%
-let g:ycm_clangd_binary_path = '%CLANGD_PATH%'
-" 语义补全快捷键改为ctrl+\
-let g:ycm_key_invoke_completion = '<C-\>'
-" 指定默认的全局ycm extra conf文件
-"let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_global_extra_conf.py'
-" 不显示补全预览
-set completeopt-=preview
+let g:vista_default_executive = '%VISTA_EXE%'
+nnoremap <F4> :Vista!!<CR>
 
-" 哪些文件类型启用ycm
-"let g:ycm_filetype_whitelist = {
-"			\ 'c': 1,
-"			\ 'cpp': 1,
-"			\ }
 
-" 字符长度达到该长度才显示在补全候选列表中
-"let g:ycm_min_num_identifier_candidate_chars = 5
+"""-----------------------------
+""" coc.nvim
+"""-----------------------------
+" 设置配置和data的主目录
+let g:coc_config_home = '~/.vim/plug_home/coc.nvim/config'
+let g:coc_data_home = '~/.vim/plug_home/coc.nvim/data'
 
-"let g:ycm_semantic_triggers =  {
-"			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
-"			\ }
+" 设置片段跳转keymap
+let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_prev = '<C-\>'
 
-" 执行GoTo命令时，同buffer跳转，不同则split
-"let g:ycm_goto_buffer_command = 'split-or-existing-window'
-
-" 映射Ycm的GoTo命令
-function! InitYcmGoToMap()
-	nnoremap <buffer> <leader>jd :YcmCompleter GoToDefinition<CR>
-	nnoremap <buffer> <leader>jr :YcmCompleter GoToReferences<CR>
-	nnoremap <buffer> <leader>ja :YcmCompleter GoTo<CR>
+function! s:check_back_space() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-augroup ycm_goto_auto_cmd
+
+"" 映射自动补全命令
+function! InitCocAutoCompleteMap()
+	" 按tab触发自动补全并选择下一项
+	inoremap <silent><expr> <TAB>
+				\ pumvisible() ? "\<C-n>" :
+				\ <SID>check_back_space() ? "\<TAB>" :
+				\ coc#refresh()
+
+	" 触发补全后按ctrl-\选择上一项
+	inoremap <expr><C-\>
+				\ pumvisible() ? "\<C-p>" : "\<C-h>"
+endfunction
+
+"" 映射跳转命令
+function! InitCocJumpToMap()
+	nmap <silent> <leader>jd <Plug>(coc-definition)
+	nmap <silent> <leader>jD <Plug>(coc-type-definition)
+	nmap <silent> <leader>ji <Plug>(coc-implementation)
+	nmap <silent> <leader>jr <Plug>(coc-references)
+endfunction
+
+augroup coc_auto_cmd
 	au!
-	autocmd FileType * call InitYcmGoToMap()
+	autocmd FileType * call InitCocAutoCompleteMap()
+	autocmd FileType * call InitCocJumpToMap()
 augroup END
 
 

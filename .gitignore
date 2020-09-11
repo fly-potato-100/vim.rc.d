@@ -1,2 +1,6 @@
 /vimrc
 /vimrc.old
+
+/plug_home/coc.nvim/config/
+
+/pack/default/start/coc.nvim-release/

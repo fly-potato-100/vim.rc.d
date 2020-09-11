@@ -90,14 +90,18 @@ else
 	VAR_GTAGSLABEL_STR=default
 fi
 
-echo "==> 正在设置clangd的路径（用于实现Ycm的语义补全，推荐9.0之后的版本） ..."
+echo "==> 正在设置clangd的路径（用于lsp，推荐9.0之后的版本） ..."
 ask_input_path
 VAR_CLANGD_PATH=$retval
 if [ -n "$VAR_CLANGD_PATH" ]
 then
-	VAR_CLANGD_ENABLED=1
+	# 配了路径，启用clangd
+	VAR_CLANGD_ENABLED=true
+	# 启用了clangd的话，也启用vista的coc
+	VAR_VISTA_EXE=coc
 else
-	VAR_CLANGD_ENABLED=0
+	VAR_CLANGD_ENABLED=false
+	VAR_VISTA_EXE=ctags
 fi
 
 ### 设置vimrc
@@ -107,11 +111,14 @@ then
 	echo "==> 备份原有的vimrc。"
 fi
 
-cp vimrc.tpl vimrc
+cp templ/vimrc.tpl vimrc
 render_template vimrc %GTAGSCONF_PATH% $VAR_GTAGSCONF_PATH
 render_template vimrc %GTAGSLABEL_STR% $VAR_GTAGSLABEL_STR
-render_template vimrc %CLANGD_ENABLED% $VAR_CLANGD_ENABLED
-render_template vimrc %CLANGD_PATH% $VAR_CLANGD_PATH
+render_template vimrc %VISTA_EXE% $VAR_VISTA_EXE
+
+cp templ/coc-settings.json.tpl plug_home/coc.nvim/config/coc-settings.json
+render_template plug_home/coc.nvim/config/coc-settings.json %COC_CLANGD_ENABLED% $VAR_CLANGD_ENABLED
+render_template plug_home/coc.nvim/config/coc-settings.json %COC_CLANGD_PATH% $VAR_CLANGD_PATH
 echo "==> 生成vimrc。"
 
 ### 执行部分插件的额外安装
@@ -123,11 +130,11 @@ then
 	exit 1
 fi
 
-echo "==> 安装YCM ..."
-cd $SCRIPT_DIR/pack/default/opt/YouCompleteMe/ && python3 install.py
+echo "==> 安装coc.nvim ..."
+cd $SCRIPT_DIR/pack/default/start && tar xzvf ../../../archives/coc.nvim.tgz
 if [ $? -ne 0 ]
 then
-	echo "==> 安装YCM失败"
+	echo "==> 安装coc.nvim失败"
 	exit 1
 fi
 
