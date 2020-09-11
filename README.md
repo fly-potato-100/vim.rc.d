@@ -7,6 +7,7 @@
 
 * vim >= 8.2(feature +python3): 异步比较完善，支持更新的插件。
 * python >= 3.6: 供插件使用。
+* node >= v12.18.3: 供插件使用
 
 ## 安装依赖
 
@@ -14,6 +15,7 @@
 * universal-ctags: tagbar、LeaderF都会用到。
 * gnu-global: 包含的gtags用来在LeaderF中查找引用。
 * pygments: 供gtags使用。
+* clangd: 作为lsp使用。
 
 ## 安装步骤
 

@@ -53,6 +53,18 @@ function render_template()
 }
 
 ### 检查一些工具命令是否存在
+if ! python3 --version &> /dev/null
+then
+	echo "==> 未找到python3，终止。"
+	exit 1
+fi
+
+if ! node --version &> /dev/null
+then
+	echo "==> 未找到node，终止。"
+	exit 1
+fi
+
 if ! type rg >/dev/null 2>&1
 then
 	echo "==> 未找到rg，LeaderF模糊搜索字符串功能将无法使用。"
