@@ -1,0 +1,1 @@
+archives/coc.nvim.tgz filter=lfs diff=lfs merge=lfs -text
