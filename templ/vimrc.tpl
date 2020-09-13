@@ -241,6 +241,9 @@ function! InitCocJumpToMap()
 	nmap <silent> <leader>jD <Plug>(coc-type-definition)
 	nmap <silent> <leader>ji <Plug>(coc-implementation)
 	nmap <silent> <leader>jr <Plug>(coc-references)
+	nmap <silent> <leader>d] <Plug>(coc-diagnostic-next)
+	nmap <silent> <leader>d[ <Plug>(coc-diagnostic-prev)
+	nnoremap <leader>dd :CocDiagnostics<CR>
 endfunction
 
 augroup coc_auto_cmd
@@ -266,6 +269,7 @@ let g:cpp_experimental_template_highlight 	= 0
 """-----------------------------
 packadd vim-go
  
+let g:go_bin_path = expand('~/.vim/plug_home/vim-go/tools')
 let g:go_fmt_command = "goimports"
 let g:go_autodetect_gopath = 1
 let g:go_list_type = "quickfix"
