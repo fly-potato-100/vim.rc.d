@@ -138,7 +138,8 @@ echo "==> 生成coc-settings.json。"
 
 ### 执行部分插件的额外安装
 echo "==> 安装LeaderF ..."
-cd $SCRIPT_DIR/pack/default/start/LeaderF/ && sh install.sh
+cd $SCRIPT_DIR
+cd pack/default/start/LeaderF/ && sh install.sh
 if [ $? -ne 0 ]
 then
 	echo "==> 安装LeaderF失败"
@@ -146,10 +147,21 @@ then
 fi
 
 echo "==> 安装coc.nvim ..."
-cd $SCRIPT_DIR/pack/default/start && tar xzvf ../../../archives/coc.nvim.tgz
+cd $SCRIPT_DIR
+cd pack/default/start && tar xzvf $SCRIPT_DIR/archives/coc.nvim.tgz
 if [ $? -ne 0 ]
 then
 	echo "==> 安装coc.nvim失败"
+	exit 1
+fi
+
+echo "==> 解压vim-go-tools ..."
+cd $SCRIPT_DIR
+mkdir -p plug_home/vim-go
+cd plug_home/vim-go && tar xzvf $SCRIPT_DIR/archives/vim-go-tools.tgz
+if [ $? -ne 0 ]
+then
+	echo "==> 解压vim-go-tools失败"
 	exit 1
 fi
 

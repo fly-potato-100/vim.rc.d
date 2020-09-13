@@ -2,5 +2,6 @@
 /vimrc.old
 
 /plug_home/coc.nvim/config/
+/plug_home/vim-go/tools/
 
 /pack/default/start/coc.nvim-release/
