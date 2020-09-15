@@ -1,7 +1,13 @@
+# 忽略生成的vimrc
 /vimrc
 /vimrc.old
 
-/plug_home/coc.nvim/config/
-/plug_home/vim-go/tools/
-
+# 忽略coc.nvim本身的目录
 /pack/default/start/coc.nvim-release/
+
+# 忽略coc.nvim的home目录，但是保留其中的插件目录
+/plug_home/coc.nvim/
+!/plug_home/coc.nvim/data/extensions/
+
+# 忽略gotools
+/plug_home/vim-go/tools/
