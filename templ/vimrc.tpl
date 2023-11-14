@@ -115,7 +115,6 @@ nnoremap <leader>x :bdelete<CR>
 """-----------------------------
 """ gruvbox
 """-----------------------------
-%ENABLE_PLUG_gruvbox%
 colorscheme %SET_COLORSCHEME%		" 启用该颜色主题
 set background=dark		" 深色模式
 
@@ -123,7 +122,6 @@ set background=dark		" 深色模式
 """-----------------------------
 """ NERDTree
 """-----------------------------
-%ENABLE_PLUG_nerdtree%
 augroup nerdtree_auto_cmd
 	au!
 	" 当打开vim且没有文件时自动打开NERDTree
@@ -140,7 +138,6 @@ nnoremap <F3> :NERDTreeToggle<CR>
 """-----------------------------
 """ airline
 """-----------------------------
-%ENABLE_PLUG_vim-airline%
 let g:airline#extensions#tabline#enabled = 1			" 启用tabline
 "let g:airline#extensions#tabline#buffer_nr_show = 1	" tabline显示编号
 let g:airline#extensions#whitespace#enabled = 0 		" 禁用空格检查
@@ -151,7 +148,6 @@ let g:airline#extensions#coc#show_coc_status = 1
 """-----------------------------
 """ LeaderF
 """-----------------------------
-%ENABLE_PLUG_LeaderF%
 let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
 let g:Lf_WorkingDirectoryMode = 'Ac'
 " don't show the help in normal mode
@@ -208,7 +204,6 @@ augroup END
 """-----------------------------
 """ Vista
 """-----------------------------
-%ENABLE_PLUG_vista.vim%
 let g:vista_default_executive = '%VISTA_EXE%'
 nnoremap <F4> :Vista!!<CR>
 
@@ -216,7 +211,6 @@ nnoremap <F4> :Vista!!<CR>
 """-----------------------------
 """ coc.nvim
 """-----------------------------
-%ENABLE_PLUG_coc.nvim%
 " 设置配置和data的主目录
 let g:coc_config_home = '~/.vim/plug_home/coc.nvim/config'
 let g:coc_data_home = '~/.vim/plug_home/coc.nvim/data'
@@ -270,7 +264,6 @@ augroup END
 """-----------------------------
 """ c++ syntax highlighting
 """-----------------------------
-%ENABLE_PLUG_vim-cpp-enhanced-highlight%
 
 let g:cpp_class_scope_highlight 			= 0
 let g:cpp_member_variable_highlight 		= 0
@@ -281,7 +274,6 @@ let g:cpp_experimental_template_highlight 	= 0
 """-----------------------------
 """ vim-go
 """-----------------------------
-%ENABLE_PLUG_vim-go%
  
 let g:go_bin_path = expand('~/.vim/plug_home/vim-go/tools')
 let g:go_fmt_command = "goimports"

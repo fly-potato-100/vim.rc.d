@@ -55,12 +55,10 @@ function render_template()
 function check_enable_plug()
 {
 	local plug_name=$1
-	if [ -d $SCRIPT_DIR/pack/default/opt/$plug_name ]
+	if [ -d $SCRIPT_DIR/pack/default/start/$plug_name ]
 	then
-		render_template vimrc "%ENABLE_PLUG_$plug_name%" "packadd $plug_name"
 		return 0
 	else
-		render_template vimrc "%ENABLE_PLUG_$plug_name%" "\"packadd $plug_name"
 		return 1
 	fi
 }
@@ -162,7 +160,7 @@ if check_enable_plug LeaderF
 then
 	render_template vimrc %GTAGSCONF_PATH% $VAR_GTAGSCONF_PATH
 	render_template vimrc %GTAGSLABEL_STR% $VAR_GTAGSLABEL_STR
-	`cd $SCRIPT_DIR/pack/default/opt/LeaderF/ && sh install.sh`
+	(cd $SCRIPT_DIR/pack/default/start/LeaderF/ && sh install.sh)
 	if [ $? -ne 0 ]
 	then
 		echo "==> 安装LeaderF的C扩展失败"
@@ -196,7 +194,7 @@ if check_enable_plug vim-go
 then
 	echo "==> 解压vim-go-tools ..."
 	mkdir -p plug_home/vim-go
-	`cd plug_home/vim-go && tar xzvf $SCRIPT_DIR/archives/vim-go-tools.tgz`
+	(cd plug_home/vim-go && tar xzvf $SCRIPT_DIR/archives/vim-go-tools.tgz)
 	if [ $? -ne 0 ]
 	then
 		echo "==> 解压vim-go-tools失败"
@@ -205,8 +203,5 @@ then
 	echo "==> 安装成功：vim-go"
 fi
 
-exit 0
 
-
-echo "==> 安装成功。"
-echo "==> 进入vim执行':helptags ALL'以刷新帮助文档。"
+echo "==> 全部安装完毕。进入vim执行':helptags ALL'以刷新帮助文档。"
