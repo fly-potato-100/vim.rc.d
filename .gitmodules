@@ -16,3 +16,7 @@
 [submodule "pack/default/start/LeaderF"]
 	path = pack/default/start/LeaderF
 	url = https://github.com/Yggdroot/LeaderF.git
+[submodule "pack/default/start/coc.nvim"]
+	path = pack/default/start/coc.nvim
+	url = https://github.com/neoclide/coc.nvim.git
+	branch = release
