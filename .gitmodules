@@ -13,3 +13,6 @@
 [submodule "pack/default/start/vim-cpp-enhanced-highlight"]
 	path = pack/default/start/vim-cpp-enhanced-highlight
 	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
+[submodule "pack/default/start/LeaderF"]
+	path = pack/default/start/LeaderF
+	url = https://github.com/Yggdroot/LeaderF.git
